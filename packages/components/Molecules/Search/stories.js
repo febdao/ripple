@@ -2,6 +2,8 @@ import { storiesOf } from '@storybook/vue'
 import RplSearchForm from './SearchForm.vue'
 import RplSearchResult from './SearchResult.vue'
 import RplSearchResults from './SearchResults.vue'
+import RplSearchResultsLayout from './SearchResultsLayout.vue'
+import RplSearchResultsTable from './SearchResultsTable.vue'
 
 import {
   withKnobs,
@@ -441,6 +443,100 @@ storiesOf('Molecules/Search', module)
         :type="searchResults.type"
         @pager-change="pagerChange"
       />`,
+    props: {
+      searchResult: {
+        default: () => ({
+          title: text('Title', 'Schools private policy'),
+          link: object('Link', {
+            linkText:
+              'www.education.vic.gov.au/Pages/schoolsprivacypolicy.aspx',
+            linkUrl:
+              '//www.education.vic.gov.au/Pages/schoolsprivacypolicy.aspx'
+          }),
+          date: text('Date', '2018-07-10T09:00:00.000+10:00'),
+          description: text(
+            'Description',
+            'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem'
+          ),
+          tags: object('Tags', [
+            {
+              linkText: 'This is a content tag',
+              linkUrl: '#'
+            },
+            {
+              linkText: 'This is a content tag',
+              linkUrl: '#'
+            }
+          ]),
+          locale: text('Locale', 'en-au')
+        })
+      },
+      pager: {
+        default: () => demoData.pagination()
+      },
+      searchResults: {
+        default: () => ({
+          count: number('Count', 70),
+          type: 'default',
+          responseSize: number('Response size', 10),
+          errorMsg: text(
+            'Error message',
+            "Search isn't working right now, please try again later."
+          ),
+          noResultsMsg: text(
+            'No results message',
+            "Sorry! We couldn't find any matches for bananas"
+          )
+        })
+      },
+      hasError: {
+        default: boolean('Has error', false)
+      },
+      noResults: {
+        default: boolean('No results', false)
+      }
+    },
+    computed: {
+      searchResultsItems: function () {
+        if (this.hasError || this.noResults) {
+          return []
+        } else {
+          return [this.searchResult, this.searchResult]
+        }
+      }
+    },
+    methods: {
+      pagerChange: function (newStep) {
+        // Use your own custom code to handle it.
+        alert('Going to step: ' + newStep)
+      }
+    }
+  }))
+  .add('Search Results Layout', () => ({
+    components: { RplSearchResultsLayout, RplSearchResult, RplSearchResultsTable },
+    template: `
+      <rpl-search-results-layout
+        :searchResults="searchResultsItems"
+        :pager="pager"
+        :responseSize="searchResults.responseSize"
+        :count="searchResults.count"
+        :errorMsg="hasError ? searchResults.errorMsg : undefined"
+        :noResultsMsg="searchResults.noResultsMsg"
+        :type="searchResults.type"
+        @pager-change="pagerChange"
+      >
+        <template slot="sort"> 
+          <select>
+            <option>test</option>
+          </select>
+        </template>
+        <template v-slot:searchresults="searchResultsProps">
+            <rpl-search-results-table
+              :items="searchResultsProps.searchResults" />
+          </template>
+ 
+        </template>
+      </rpl-search-results-layout>`,
     props: {
       searchResult: {
         default: () => ({
