@@ -1,6 +1,6 @@
 <template>
   <div class="rpl-meta-tag" :class="{'rpl-meta-tag--dark' : (theme === 'dark')}">
-    <rpl-link class="rpl-meta-tag__link" :href="linkUrl">
+    <rpl-link :is="linkUrl ? 'rpl-link' : 'span'" class="rpl-meta-tag__link" :href="linkUrl">
       <span class="rpl-meta-tag__text">{{ linkText }}</span>
     </rpl-link>
   </div>

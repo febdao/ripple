@@ -38,7 +38,7 @@ import RplPagination from '@dpc-sdp/ripple-pagination'
 import { RplRow, RplCol } from '@dpc-sdp/ripple-grid'
 
 export default {
-  name: 'RplSearchResults',
+  name: 'RplSearchResultsLayout',
   mixins: [provideChildCols],
   components: {
     RplPagination,
@@ -69,8 +69,14 @@ export default {
         return { m: 6, l: 4, xxxl: 3 }
       }
     },
-    errorMsg: String,
-    noResultsMsg: String,
+    errorMsg: {
+      type: String,
+      default: 'Search isn\'t working right now, please try again later.'
+    },
+    noResultsMsg: {
+      type: String,
+      default: 'Sorry! We couldn\'t find any matches'
+    },
     responseSize: Number,
     count: Number
   }

@@ -20,7 +20,7 @@ export default {
     iconPlacement: { default: 'after', type: String },
     iconSize: { default: 'm', type: String },
     text: { default: null, type: String },
-    url: { default: null, type: String },
+    url: { default: '', type: String },
     innerWrap: { default: true, type: Boolean },
     underline: { default: false, type: Boolean },
     theme: { default: 'light', type: String },
